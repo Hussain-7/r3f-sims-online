@@ -1,12 +1,16 @@
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
+import { SocketManager } from "./components/SocketManager";
 
 function App() {
   return (
-    <Canvas shadows camera={{ position: [5, 5, 10], fov: 30 }}>
-      <color attach="background" args={["#ececec"]} />
-      <Experience />
-    </Canvas>
+    <>
+      <SocketManager />
+      <Canvas shadows camera={{ position: [5, 5, 10], fov: 30 }}>
+        <color attach="background" args={["#ececec"]} />
+        <Experience />
+      </Canvas>
+    </>
   );
 }
 
