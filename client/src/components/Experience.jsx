@@ -23,12 +23,12 @@ export const Experience = () => {
       <ContactShadows blur={2} />
       <mesh
         rotation-x={-Math.PI / 2}
-        position-y={-0.001}
+        position-y={-0.1}
         onClick={(e) => socket.emit("move", [e.point.x, 0, e.point.z])}
         onPointerEnter={() => setOnFloor(true)}
         onPointerLeave={() => setOnFloor(false)}
       >
-        <planeGeometry args={[20, 20]} />
+        <planeGeometry args={[10, 10]} />
         <meshStandardMaterial color="#f0f0f0" />
       </mesh>
       {characters.map((character) => (
