@@ -21,7 +21,7 @@ export function BeachCharacter({
   const { nodes } = useGraph(clone);
   const { actions } = useAnimations(animations, group);
   console.log("actions", actions);
-  const [animation, setAnimation] = useState("CharacterArmature|Run");
+  const [animation, setAnimation] = useState("CharacterArmature|Idle");
 
   useEffect(() => {
     actions[animation].reset().fadeIn(0.5).play();

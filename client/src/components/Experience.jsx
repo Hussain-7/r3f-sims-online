@@ -1,16 +1,13 @@
-import { Environment, OrbitControls } from "@react-three/drei";
-import { Adventurer } from "./Characters/Adventurer";
-import { Witch } from "./Characters/Witch";
-import { BeachCharacter } from "./Characters/BeachCharacter";
-import { ScifiCharacter } from "./Characters/ScifiCharacter";
-import { HoodedAdventurer } from "./Characters/HoodedAdventurer";
+import { ContactShadows, Environment, OrbitControls } from "@react-three/drei";
+import { BeachCharacter } from "./Characters";
 
 export const Experience = () => {
   return (
     <>
-      <Environment preset="sunset" background />
+      <Environment preset="sunset" />
       <ambientLight intensity={0.5} />
       <OrbitControls />
+      <ContactShadows blur={2} />
       <BeachCharacter position={[0, 0, 0]} hairColor="red" />
       <BeachCharacter position={[1, 0, 0]} />
       <BeachCharacter position={[2, 0, 0]} />
