@@ -3,6 +3,7 @@ import { Server } from "socket.io";
 const io = new Server({
   cors: {
     origin: "http://127.0.0.1:5173",
+    // add multiple origins with an array of strings and regexps
   },
 });
 

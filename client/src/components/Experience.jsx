@@ -1,6 +1,7 @@
 import {
   ContactShadows,
   Environment,
+  Grid,
   OrbitControls,
   useCursor,
 } from "@react-three/drei";
@@ -24,7 +25,7 @@ export const Experience = () => {
       <ambientLight intensity={0.5} />
       <OrbitControls />
       {/* <ContactShadows blur={2} /> */}
-      {map.items.map((item, index) => (
+      {map?.items?.map((item, index) => (
         <Item key={`${item.name}-${index}`} item={item} />
       ))}
       <mesh
@@ -36,10 +37,11 @@ export const Experience = () => {
         position-x={map.size[0] / 2}
         position-z={map.size[1] / 2}
       >
-        <planeGeometry args={map.size} />
+        <planeGeometry args={map?.size} />
         <meshStandardMaterial color="#f0f0f0" />
       </mesh>
-      {characters.map((character) => (
+      <Grid infiniteGrid fadeDistance={50} fadeStrength={5} />
+      {characters?.map((character) => (
         <BeachCharacter
           key={character.id}
           id={character.id}
