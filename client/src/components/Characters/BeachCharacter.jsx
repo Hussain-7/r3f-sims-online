@@ -7,11 +7,14 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { useFrame, useGraph } from "@react-three/fiber";
 import { SkeletonUtils } from "three-stdlib";
+import { userAtom } from "../SocketManager";
+import { useAtom } from "jotai";
 const MOVEMENT_SPEED = 0.032;
 export function BeachCharacter({
   hairColor = "white",
   topColor = "orange",
   bottomColor = "darkred",
+  id,
   ...props
 }) {
   const position = useMemo(() => props.position, []);
@@ -29,6 +32,9 @@ export function BeachCharacter({
     actions[animation].reset().fadeIn(0.32).play();
     return () => actions[animation]?.fadeOut(0.32);
   }, [animation]);
+
+  const [user] = useAtom(userAtom);
+
   useFrame((state, delta) => {
     if (group.current.position.distanceTo(props.position) > 0.1) {
       const direction = group.current.position
@@ -41,6 +47,12 @@ export function BeachCharacter({
       setAnimation("CharacterArmature|Run");
     } else {
       setAnimation("CharacterArmature|Idle");
+    }
+    if (id === user) {
+      state.camera.position.x = group.current.position.x + 8;
+      state.camera.position.z = group.current.position.z + 8;
+      state.camera.position.y = group.current.position.y + 8;
+      state.camera.lookAt(group.current.position);
     }
   });
   return (
