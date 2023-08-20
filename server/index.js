@@ -30,18 +30,40 @@ const items = {
 };
 
 const map = {
-  size: [10, 10],
+  size: [20, 20],
   gridDivision: 2,
   items: [
     {
       ...items.chair,
-      gridPosition: [4, 4],
-      rotation: 0,
+      gridPosition: [18, 14],
+      rotation: -1,
     },
     {
       ...items.chair,
-      gridPosition: [4, 6],
-      rotation: 2,
+      gridPosition: [18, 16],
+      rotation: -1,
+    },
+    {
+      ...items.chair,
+      gridPosition: [13, 14],
+      rotation: 1,
+    },
+    {
+      ...items.chair,
+      gridPosition: [13, 16],
+      rotation: 1,
+    },
+    {
+      ...items.table,
+      gridPosition: [15, 13],
+    },
+    {
+      ...items.couch,
+      gridPosition: [4, 4],
+    },
+    {
+      ...items.stepCurb,
+      gridPosition: [0, 0],
     },
   ],
 };
