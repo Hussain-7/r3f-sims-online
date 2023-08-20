@@ -10,8 +10,44 @@ io.listen(3001);
 
 const characters = [];
 
+const items = {
+  table: {
+    name: "Table",
+    size: [3, 5],
+  },
+  chair: {
+    name: "Chair",
+    size: [2, 2],
+  },
+  couch: {
+    name: "Couch",
+    size: [3, 2],
+  },
+  stepCurb: {
+    name: "Step Curb",
+    size: [4, 2],
+  },
+};
+
+const map = {
+  size: [10, 10],
+  gridDivision: 2,
+  items: [
+    {
+      ...items.chair,
+      gridPosition: [4, 4],
+      rotation: 0,
+    },
+    {
+      ...items.chair,
+      gridPosition: [4, 6],
+      rotation: 2,
+    },
+  ],
+};
+
 const generateRandomPosition = () => {
-  return [Math.random() * 3, 0, Math.random() * 3];
+  return [Math.random() * map.size[0], 0, Math.random() * map.size[1]];
 };
 
 const generateRandomHexColor = () => {
@@ -29,7 +65,12 @@ io.on("connection", (socket) => {
     bottomColor: generateRandomHexColor(),
   });
 
-  socket.emit("hello");
+  socket.emit("hello", {
+    map,
+    characters,
+    id: socket.id,
+    items,
+  });
 
   io.emit("characters", characters);
 
