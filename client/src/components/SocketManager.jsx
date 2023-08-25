@@ -4,8 +4,8 @@ import { io } from "socket.io-client";
 
 export const socket = io("http://localhost:3001");
 export const charactersAtom = atom([]);
-export const mapAtom = atom([]);
-export const userAtom = atom([]);
+export const mapAtom = atom(null);
+export const userAtom = atom(null);
 
 export const SocketManager = () => {
   const [_characters, setCharacters] = useAtom(charactersAtom);
@@ -18,25 +18,39 @@ export const SocketManager = () => {
     function onDisconnect() {
       console.log("disconnected");
     }
+
     function onHello(value) {
-      console.log("hello", value);
       setMap(value.map);
-      setCharacters(value.characters);
       setUser(value.id);
+      setCharacters(value);
     }
+
     function onCharacters(value) {
       setCharacters(value);
     }
 
+    function onPlayerMove(value) {
+      setCharacters((prev) => {
+        return prev.map((character) => {
+          if (character.id === value.id) {
+            return value;
+          }
+          return character;
+        });
+      });
+    }
+
     socket.on("connect", onConnect);
-    socket.on("hello", onHello);
     socket.on("disconnect", onDisconnect);
+    socket.on("hello", onHello);
     socket.on("characters", onCharacters);
+    socket.on("playerMove", onPlayerMove);
     return () => {
       socket.off("connect", onConnect);
-      socket.off("hello", onHello);
       socket.off("disconnect", onDisconnect);
+      socket.off("hello", onHello);
       socket.off("characters", onCharacters);
+      socket.off("playerMove", onPlayerMove);
     };
   }, []);
 };

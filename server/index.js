@@ -10,6 +10,8 @@ const io = new Server({
 
 io.listen(3001);
 
+const characters = [];
+
 const grid = new pathfinding.Grid(
   map.size[0] * map.gridDivision,
   map.size[1] * map.gridDivision
@@ -46,13 +48,17 @@ const updateGrid = () => {
     }
   });
 };
-updateGrid();
-console.log(findPath([3, 3], [4, 7]));
 
-const characters = [];
+updateGrid();
 
 const generateRandomPosition = () => {
-  return [Math.random() * map.size[0], 0, Math.random() * map.size[1]];
+  for (let i = 0; i < 100; i++) {
+    const x = Math.floor(Math.random() * map.size[0] * map.gridDivision);
+    const y = Math.floor(Math.random() * map.size[1] * map.gridDivision);
+    if (grid.isWalkableAt(x, y)) {
+      return [x, y];
+    }
+  }
 };
 
 const generateRandomHexColor = () => {
@@ -79,12 +85,18 @@ io.on("connection", (socket) => {
 
   io.emit("characters", characters);
 
-  socket.on("move", (position) => {
+  socket.on("move", (from, to) => {
     const character = characters.find(
       (character) => character.id === socket.id
     );
-    character.position = position;
-    io.emit("characters", characters);
+    const path = findPath(from, to);
+    console.log("path", path);
+    if (!path) {
+      return;
+    }
+    character.position = from;
+    character.path = path;
+    io.emit("playerMove", character);
   });
 
   socket.on("disconnect", () => {
