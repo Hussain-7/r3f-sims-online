@@ -20,7 +20,7 @@ export function BeachCharacter({
   const position = useMemo(() => props.position, []);
   const group = useRef();
   const { scene, materials, animations } = useGLTF(
-    "/models/Beach Character.glb"
+    "/models/characters/Beach Character.glb"
   );
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
   const { nodes } = useGraph(clone);
@@ -158,4 +158,4 @@ export function BeachCharacter({
   );
 }
 
-useGLTF.preload("/models/Beach Character.glb");
+useGLTF.preload("/models/characters/Beach Character.glb");

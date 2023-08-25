@@ -8,7 +8,7 @@ import { useGLTF, useAnimations } from '@react-three/drei'
 
 export function HoodedAdventurer(props) {
   const group = useRef()
-  const { nodes, materials, animations } = useGLTF('/models/Hooded Adventurer.glb')
+  const { nodes, materials, animations } = useGLTF('/models/characters/Hooded Adventurer.glb')
   const { actions } = useAnimations(animations, group)
   return (
     <group ref={group} {...props} dispose={null}>
@@ -43,4 +43,4 @@ export function HoodedAdventurer(props) {
   )
 }
 
-useGLTF.preload('/models/Hooded Adventurer.glb')
+useGLTF.preload('/models/characters/Hooded Adventurer.glb')

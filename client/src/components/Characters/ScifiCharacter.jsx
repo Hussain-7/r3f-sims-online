@@ -9,7 +9,7 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 export function ScifiCharacter(props) {
   const group = useRef();
   const { nodes, materials, animations } = useGLTF(
-    "/models/Sci Fi Character.glb"
+    "/models/characters/Sci Fi Character.glb"
   );
   const { actions } = useAnimations(animations, group);
   return (
@@ -127,4 +127,4 @@ export function ScifiCharacter(props) {
   );
 }
 
-useGLTF.preload("/models/Sci Fi Character.glb");
+useGLTF.preload("/models/characters/Sci Fi Character.glb");

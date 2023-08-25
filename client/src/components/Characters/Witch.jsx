@@ -8,7 +8,9 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 
 export function Witch(props) {
   const group = useRef();
-  const { nodes, materials, animations } = useGLTF("/models/Witch.glb");
+  const { nodes, materials, animations } = useGLTF(
+    "/models/characters/Witch.glb"
+  );
   const { actions } = useAnimations(animations, group);
   return (
     <group ref={group} {...props} dispose={null}>
@@ -113,4 +115,4 @@ export function Witch(props) {
   );
 }
 
-useGLTF.preload("/models/Witch.glb");
+useGLTF.preload("/models/characters/Witch.glb");

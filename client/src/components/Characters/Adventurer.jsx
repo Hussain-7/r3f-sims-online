@@ -13,7 +13,9 @@ export function Adventurer({
   ...props
 }) {
   const group = useRef();
-  const { nodes, materials, animations } = useGLTF("/models/Adventurer.glb");
+  const { nodes, materials, animations } = useGLTF(
+    "/models/characters/Adventurer.glb"
+  );
   const { actions } = useAnimations(animations, group);
   console.log("actions", actions);
   const [animation, setAnimation] = useState("CharacterArmature|Idle");
@@ -167,4 +169,4 @@ export function Adventurer({
   );
 }
 
-useGLTF.preload("/models/Adventurer.glb");
+useGLTF.preload("/models/characters/Adventurer.glb");
