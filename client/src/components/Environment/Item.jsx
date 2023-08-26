@@ -5,8 +5,16 @@ import { SkeletonUtils } from "three-stdlib";
 import { mapAtom } from "../SocketManager";
 import { useGrid } from "../../hooks/useGrid";
 
-export const Item = ({ item, onClick, isDragging, dragPosition, canDrop }) => {
-  const { name, gridPosition, size, rotation } = item;
+export const Item = ({
+  item,
+  onClick,
+  isDragging,
+  dragPosition,
+  canDrop,
+  dragRotation,
+}) => {
+  const { name, gridPosition, size, rotation: itemRotation } = item;
+  const rotation = isDragging ? dragRotation : itemRotation;
   const [map] = useAtom(mapAtom);
   const { scene } = useGLTF(`/models/items/${name}.glb`);
   // Skinned meshes cannot be re-used in threejs without cloning them

@@ -9,15 +9,15 @@ import { BeachCharacter } from "./Characters";
 import { useAtom } from "jotai";
 import * as THREE from "three";
 import { charactersAtom, mapAtom, socket, userAtom } from "./SocketManager";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Item } from "./Environment/Item";
 import { useThree } from "@react-three/fiber";
 import { useGrid } from "../hooks/useGrid";
 import Wall from "./Environment/Wall";
+import { buildModeAtom, draggedItemAtom, draggedItemRotationAtom } from "./UI";
 
 export const Experience = () => {
-  
-  const [buildMode, setBuildMode] = useState(true);
+  const [buildMode, setBuildMode] = useAtom(buildModeAtom);
   const { vector3ToGrid, gridToVector3 } = useGrid();
   const [characters] = useAtom(charactersAtom);
   const [map] = useAtom(mapAtom);
@@ -43,6 +43,7 @@ export const Experience = () => {
           setItems((prev) => {
             const newItems = [...prev];
             newItems[draggedItem].gridPosition = vector3ToGrid(e.point);
+            newItems[draggedItem].rotation = draggedItemRotation;
             return newItems;
           });
         }
@@ -51,7 +52,10 @@ export const Experience = () => {
     }
   };
 
-  const [draggedItem, setDraggedItem] = useState(null);
+  const [draggedItem, setDraggedItem] = useAtom(draggedItemAtom);
+  const [draggedItemRotation, setDraggedItemRotation] = useAtom(
+    draggedItemRotationAtom
+  );
   const [dragPosition, setDragPosition] = useState(null);
   const [canDrop, setCanDrop] = useState(false);
   useEffect(() => {
@@ -105,20 +109,41 @@ export const Experience = () => {
     }
     setCanDrop(droppable);
   }, [dragPosition, draggedItem, items]);
+  const controls = useRef();
+  const state = useThree((state) => state);
+  useEffect(() => {
+    if (buildMode) {
+      state.camera.position.set(30, 10, 16);
+      controls.current.target.set(0, 0, 0);
+    }
+  }, [buildMode]);
   return (
     <>
       <Environment preset="sunset" />
       <ambientLight intensity={0.5} />
-      <OrbitControls />
+      <OrbitControls
+        ref={controls}
+        // How much we can zoom in or out
+        minDistance={5}
+        maxDistance={25}
+        // How far we can orbit vertically, upper and lower limits.
+        minPolarAngle={0}
+        maxPolarAngle={Math.PI / 2}
+        // not allow going below ground
+        screenSpacePanning={false}
+      />
       {(buildMode ? items : map?.items).map((item, index) => (
         <Item
           key={`${item.name}-${index}`}
           item={item}
-          onClick={() =>
-            setDraggedItem((prev) => (prev === null ? index : prev))
-          }
+          onClick={() => {
+            if (!buildMode) return;
+            setDraggedItem((prev) => (prev === null ? index : prev));
+            setDraggedItemRotation(item.rotation || 0);
+          }}
           isDragging={draggedItem === index}
           dragPosition={dragPosition}
+          dragRotation={draggedItemRotation}
           canDrop={canDrop}
         />
       ))}
@@ -156,17 +181,18 @@ export const Experience = () => {
         rotation={[0, Math.PI / 2, 0]}
       />
       <Wall x={0} y={map.size[0] / 2} rotation={[0, Math.PI / 2, 0]} />
-      {/* {characters?.map((character) => (
-        <BeachCharacter
-          key={character?.id}
-          id={character?.id}
-          path={character?.path}
-          position={gridToVector3(character?.position)}
-          hairColor={character?.hairColor}
-          topColor={character?.topColor}
-          bottomColor={character?.bottomColor}
-        />
-      ))} */}
+      {!buildMode &&
+        characters?.map((character) => (
+          <BeachCharacter
+            key={character?.id}
+            id={character?.id}
+            path={character?.path}
+            position={gridToVector3(character?.position)}
+            hairColor={character?.hairColor}
+            topColor={character?.topColor}
+            bottomColor={character?.bottomColor}
+          />
+        ))}
     </>
   );
 };
