@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
 import { map, items } from "./config.js";
-import { updateGrid } from "./utils/pathFinder.js";
+import { findPath, updateGrid } from "./utils/pathFinder.js";
 import {
   generateRandomHexColor,
   generateRandomPosition,
@@ -42,6 +42,25 @@ io.on("connection", (socket) => {
     items,
   });
   io.emit("characters", characters);
-  socket.on("move", handleOnCharacterMove);
-  socket.on("disconnect", handleOnDisconnect);
+  socket.on("move", (from, to) => {
+    const character = characters.find(
+      (character) => character.id === socket.id
+    );
+    const path = findPath(from, to);
+    console.log("path", path);
+    if (!path) {
+      return;
+    }
+    character.position = from;
+    character.path = path;
+    io.emit("playerMove", character);
+  });
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+    characters.splice(
+      characters.findIndex((character) => character.id === socket.id),
+      1
+    );
+    io.emit("characters", characters);
+  });
 });
