@@ -1,9 +1,10 @@
-import { useGLTF } from "@react-three/drei";
+import { useCursor, useGLTF } from "@react-three/drei";
 import { useAtom, useAtomValue } from "jotai";
 import { useMemo, useState } from "react";
 import { SkeletonUtils } from "three-stdlib";
 import { mapAtom } from "../SocketManager";
 import { useGrid } from "../../hooks/useGrid";
+import { buildModeAtom } from "../UI";
 
 export const Item = ({
   item,
@@ -23,8 +24,8 @@ export const Item = ({
   const width = rotation === 1 || rotation === 3 ? size[1] : size[0];
   const height = rotation === 1 || rotation === 3 ? size[0] : size[1];
   const [hover, setHover] = useState(false);
-  // const [buildMode] = useAtomValue(buildModeAtom);
-  // useCursor(buildMode ? hover : undefined);
+  const [buildMode] = useAtom(buildModeAtom);
+  useCursor(buildMode ? hover : undefined);
   return (
     <group
       onClick={onClick}
