@@ -10,12 +10,13 @@ import { useAtom } from "jotai";
 import * as THREE from "three";
 import { charactersAtom, mapAtom, socket, userAtom } from "./SocketManager";
 import { useState } from "react";
-import { Item } from "./Item";
+import { Item } from "./Environment/Item";
 import { useThree } from "@react-three/fiber";
 import { useGrid } from "../hooks/useGrid";
-import Wall from "./Wall";
+import Wall from "./Environment/Wall";
 
 export const Experience = () => {
+  const [buildMode, setBuildMode] = useState(false);
   const { vector3ToGrid, gridToVector3 } = useGrid();
   const [characters] = useAtom(charactersAtom);
   const [map] = useAtom(mapAtom);
@@ -36,13 +37,23 @@ export const Experience = () => {
     );
   };
 
+  const [draggedItem, setDraggedItem] = useState(null);
+  const [dragPosition, setDragPosition] = useState(null);
+
   return (
     <>
       <Environment preset="sunset" />
       <ambientLight intensity={0.5} />
       <OrbitControls />
       {map?.items?.map((item, index) => (
-        <Item key={`${item.name}-${index}`} item={item} />
+        <Item
+          key={`${item.name}-${index}`}
+          item={item}
+          onClick={() =>
+            setDraggedItem((prev) => (prev === null ? index : prev))
+          }
+          isDragging={draggedItem === index}
+        />
       ))}
       <mesh
         rotation-x={-Math.PI / 2}
@@ -50,6 +61,11 @@ export const Experience = () => {
         onClick={onCharacterMove}
         onPointerEnter={() => setOnFloor(true)}
         onPointerLeave={() => setOnFloor(false)}
+        onPointerMove={(e) => {
+          if (!buildMode) return;
+          const newPosition = vector3ToGrid(e.point);
+          // if(!dragPosition || newPosition[0] !==d
+        }}
         position-x={map.size[0] / 2}
         position-z={map.size[1] / 2}
       >

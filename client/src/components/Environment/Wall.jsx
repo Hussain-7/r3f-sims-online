@@ -1,6 +1,6 @@
 import React from "react";
 import * as THREE from "three";
-import { mapAtom } from "./SocketManager";
+import { mapAtom } from "../SocketManager";
 import { useAtom } from "jotai";
 
 const Wall = ({ x, y, rotation = [0, 0, 0] }) => {

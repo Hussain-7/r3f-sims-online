@@ -5,10 +5,7 @@ import {
   generateRandomHexColor,
   generateRandomPosition,
 } from "./utils/character.js";
-import {
-  handleOnCharacterMove,
-  handleOnDisconnect,
-} from "./utils/socketEventHandlers.js";
+
 export const io = new Server({
   cors: {
     origin: "http://127.0.0.1:5173",
@@ -47,10 +44,8 @@ io.on("connection", (socket) => {
       (character) => character.id === socket.id
     );
     const path = findPath(from, to);
-    console.log("path", path);
-    if (!path) {
-      return;
-    }
+    if (!path) return;
+
     character.position = from;
     character.path = path;
     io.emit("playerMove", character);

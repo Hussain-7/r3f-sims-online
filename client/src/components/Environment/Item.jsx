@@ -2,9 +2,9 @@ import { useGLTF } from "@react-three/drei";
 import { useAtom } from "jotai";
 import { useMemo } from "react";
 import { SkeletonUtils } from "three-stdlib";
-import { mapAtom } from "./SocketManager";
+import { mapAtom } from "../SocketManager";
 
-export const Item = ({ item }) => {
+export const Item = ({ item, onClick, isDragging }) => {
   const { name, gridPosition, size, rotation } = item;
   const [map] = useAtom(mapAtom);
   const { scene } = useGLTF(`/models/items/${name}.glb`);
@@ -15,9 +15,10 @@ export const Item = ({ item }) => {
   return (
     <primitive
       object={clone}
+      onClick={onClick}
       position={[
         width / map.gridDivision / 2 + gridPosition[0] / map.gridDivision,
-        0,
+        isDragging ? 0.1 : 0,
         height / map.gridDivision / 2 + gridPosition[1] / map.gridDivision,
       ]}
       rotation-y={((rotation || 0) * Math.PI) / 2}
