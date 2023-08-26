@@ -1,7 +1,6 @@
 import { map, items } from "../config.js";
 import pathfinding from "pathfinding";
 
-
 export const grid = new pathfinding.Grid(
   map.size[0] * map.gridDivision,
   map.size[1] * map.gridDivision
@@ -19,6 +18,13 @@ export const findPath = (start, end) => {
 };
 
 export const updateGrid = () => {
+  // RESET
+  for (let x = 0; x < map.size[0] * map.gridDivision; x++) {
+    for (let y = 0; y < map.size[1] * map.gridDivision; y++) {
+      grid.setWalkableAt(x, y, true);
+    }
+  }
+
   map.items.forEach((item) => {
     if (item.walkable || item.wall) {
       return;
