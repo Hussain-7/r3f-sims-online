@@ -13,6 +13,7 @@ import { useState } from "react";
 import { Item } from "./Item";
 import { useThree } from "@react-three/fiber";
 import { useGrid } from "../hooks/useGrid";
+import Wall from "./Wall";
 
 export const Experience = () => {
   const { vector3ToGrid, gridToVector3 } = useGrid();
@@ -40,13 +41,12 @@ export const Experience = () => {
       <Environment preset="sunset" />
       <ambientLight intensity={0.5} />
       <OrbitControls />
-      {/* <ContactShadows blur={2} /> */}
       {map?.items?.map((item, index) => (
         <Item key={`${item.name}-${index}`} item={item} />
       ))}
       <mesh
         rotation-x={-Math.PI / 2}
-        position-y={-0.1}
+        position-y={-0.002}
         onClick={onCharacterMove}
         onPointerEnter={() => setOnFloor(true)}
         onPointerLeave={() => setOnFloor(false)}
@@ -56,7 +56,18 @@ export const Experience = () => {
         <planeGeometry args={map?.size} />
         <meshStandardMaterial color="#f0f0f0" />
       </mesh>
-      <Grid infiniteGrid fadeDistance={50} fadeStrength={5} />
+      <Grid infiniteGrid fadeDistance={70} fadeStrength={10} />
+      {/* Create Vertical walls around this plane */}
+
+      <Wall x={map.size[0] / 2} y={0} />
+      <Wall x={map.size[0] / 2} y={map.size[0]} />
+      <Wall
+        x={map.size[0]}
+        y={map.size[0] / 2}
+        rotation={[0, Math.PI / 2, 0]}
+      />
+      <Wall x={0} y={map.size[0] / 2} rotation={[0, Math.PI / 2, 0]} />
+
       {characters?.map((character) => (
         <BeachCharacter
           key={character.id}
