@@ -38,11 +38,13 @@ export const Experience = () => {
       );
     } else {
       if (draggedItem !== null) {
-        setItems((prev) => {
-          const newItems = [...prev];
-          newItems[draggedItem].gridPosition = vector3ToGrid(e.point);
-          return newItems;
-        });
+        if (canDrop) {
+          setItems((prev) => {
+            const newItems = [...prev];
+            newItems[draggedItem].gridPosition = vector3ToGrid(e.point);
+            return newItems;
+          });
+        }
         setDraggedItem(null);
       }
     }
@@ -76,13 +78,19 @@ export const Experience = () => {
       droppable = false;
     }
     // check if items is not colliding with other items
-    if (!item.walkable && !item.wall) { 
+    if (!item.walkable && !item.wall) {
       items.forEach((otherItem, index) => {
         if (index === draggedItem) return;
-        
+
         if (otherItem.walkable || otherItem.wall) return;
-        const otherWidth = otherItem.rotation === 1 || otherItem.rotation === 3 ? otherItem.size[1] : otherItem.size[0];
-        const otherHeight = otherItem.rotation === 1 || otherItem.rotation === 3 ? otherItem.size[0] : otherItem.size[1];
+        const otherWidth =
+          otherItem.rotation === 1 || otherItem.rotation === 3
+            ? otherItem.size[1]
+            : otherItem.size[0];
+        const otherHeight =
+          otherItem.rotation === 1 || otherItem.rotation === 3
+            ? otherItem.size[0]
+            : otherItem.size[1];
         // just check if the item is not colliding with other items
         if (
           dragPosition[0] + width > otherItem.gridPosition[0] &&
