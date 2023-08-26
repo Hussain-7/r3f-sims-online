@@ -1,6 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
 import { SocketManager } from "./components/SocketManager";
+import { UI } from "./components/UI";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <color attach="background" args={["#ececec"]} />
         <Experience />
       </Canvas>
+      <UI />
     </>
   );
 }

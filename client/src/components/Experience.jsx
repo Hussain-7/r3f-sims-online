@@ -16,6 +16,7 @@ import { useGrid } from "../hooks/useGrid";
 import Wall from "./Environment/Wall";
 
 export const Experience = () => {
+  
   const [buildMode, setBuildMode] = useState(true);
   const { vector3ToGrid, gridToVector3 } = useGrid();
   const [characters] = useAtom(charactersAtom);
