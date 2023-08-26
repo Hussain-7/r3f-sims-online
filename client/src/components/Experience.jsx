@@ -119,7 +119,7 @@ export const Experience = () => {
   useEffect(() => {
     if (buildMode) {
       setItems(map?.items || []);
-      state.camera.position.set(8, 8, 8);
+      state.camera.position.set(30, 10, 20);
       controls.current.target.set(0, 0, 0);
     } else {
       socket.emit("itemsUpdate", items);

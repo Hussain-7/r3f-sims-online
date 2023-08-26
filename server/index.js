@@ -20,9 +20,6 @@ export const characters = [];
 // and set walkable and unwalkable positions
 updateGrid();
 
-
-
-
 io.on("connection", (socket) => {
   console.log("user connected");
 
@@ -58,11 +55,12 @@ io.on("connection", (socket) => {
 
   socket.on("itemsUpdate", (items) => {
     map.items = items;
+    updateGrid();
     characters.forEach((character) => {
       character.path = [];
       character.position = generateRandomPosition();
     });
-    updateGrid();
+    // io.emit("characters", characters);
     io.emit("mapUpdate", {
       map,
       characters,
