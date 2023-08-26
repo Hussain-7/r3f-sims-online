@@ -56,9 +56,9 @@ export const Experience = () => {
         <planeGeometry args={map?.size} />
         <meshStandardMaterial color="#f0f0f0" />
       </mesh>
-      <Grid infiniteGrid fadeDistance={70} fadeStrength={10} />
-      {/* Create Vertical walls around this plane */}
+      <Grid infiniteGrid fadeDistance={50} fadeStrength={10} />
 
+      {/* Walls around the grid */}
       <Wall x={map.size[0] / 2} y={0} />
       <Wall x={map.size[0] / 2} y={map.size[0]} />
       <Wall
@@ -67,7 +67,6 @@ export const Experience = () => {
         rotation={[0, Math.PI / 2, 0]}
       />
       <Wall x={0} y={map.size[0] / 2} rotation={[0, Math.PI / 2, 0]} />
-
       {characters?.map((character) => (
         <BeachCharacter
           key={character.id}

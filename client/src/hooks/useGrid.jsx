@@ -14,6 +14,8 @@ export const useGrid = () => {
   };
 
   const gridToVector3 = (gridPosition, width = 1, height = 1) => {
+    // this offset is to center the object on the grid position
+    // gridPosition[0] / map.gridDivision is the x position on the grid
     return new THREE.Vector3(
       width / map.gridDivision / 2 + gridPosition[0] / map.gridDivision,
       0,

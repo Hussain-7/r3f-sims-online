@@ -65,12 +65,7 @@ export function BeachCharacter({
       state.camera.position.x = group.current.position.x + 8;
       state.camera.position.y = group.current.position.y + 8;
       state.camera.position.z = group.current.position.z + 8;
-      // rotate camera to look at character
       state.camera.lookAt(group.current.position);
-      // look at the back of the character
-      // state.camera.rotation.x = -Math.PI / 2;
-      // state.camera.rotation.y = 0;
-      // state.camera.rotation.z = 0;
     }
   });
 
