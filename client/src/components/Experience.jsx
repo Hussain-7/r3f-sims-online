@@ -59,9 +59,13 @@ export const Experience = () => {
     }
     const item = items[draggedItem];
     const width =
-      item.rotation === 1 || item.rotation === 3 ? item.size[1] : item.size[0];
+      draggedItemRotation === 1 || draggedItemRotation === 3
+        ? item.size[1]
+        : item.size[0];
     const height =
-      item.rotation === 1 || item.rotation === 3 ? item.size[0] : item.size[1];
+      draggedItemRotation === 1 || draggedItemRotation === 3
+        ? item.size[0]
+        : item.size[1];
 
     let droppable = true;
 
@@ -112,7 +116,7 @@ export const Experience = () => {
     }
 
     setCanDrop(droppable);
-  }, [dragPosition, draggedItem, items]);
+  }, [dragPosition, draggedItem, items, draggedItemRotation]);
   const controls = useRef();
   const state = useThree((state) => state);
 
