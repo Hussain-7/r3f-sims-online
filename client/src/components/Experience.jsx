@@ -7,9 +7,15 @@ import { useGrid } from "../hooks/useGrid";
 import { BeachCharacter } from "../components/Characters/BeachCharacter";
 import { Item } from "../components/Environment/Item";
 import { charactersAtom, mapAtom, socket, userAtom } from "./SocketManager";
-import { buildModeAtom, draggedItemAtom, draggedItemRotationAtom } from "./UI";
+import {
+  buildModeAtom,
+  draggedItemAtom,
+  draggedItemRotationAtom,
+  shopModeAtom,
+} from "./UI";
 export const Experience = () => {
   const [buildMode, setBuildMode] = useAtom(buildModeAtom);
+  const [shopMode, setShopMode] = useAtom(shopModeAtom);
   const [characters] = useAtom(charactersAtom);
   const [map] = useAtom(mapAtom);
   const [items, setItems] = useState(map.items);
@@ -134,6 +140,18 @@ export const Experience = () => {
     <>
       <Environment preset="sunset" />
       <ambientLight intensity={0.3} />
+      <directionalLight
+        position={[-4, 4, -4]}
+        castShadow
+        intensity={0.35}
+        shadow-mapSize={[1024, 1024]}
+      >
+        <orthographicCamera
+          attach={"shadow-camera"}
+          args={[-map.size[0], map.size[1], 10, -10]}
+          far={map.size[0] + map.size[1]}
+        />
+      </directionalLight>{" "}
       <OrbitControls
         ref={controls}
         minDistance={5}
@@ -142,49 +160,54 @@ export const Experience = () => {
         maxPolarAngle={Math.PI / 2}
         screenSpacePanning={false}
       />
-
-      {(buildMode ? items : map.items).map((item, idx) => (
-        <Item
-          key={`${item.name}-${idx}`}
-          item={item}
-          onClick={() => {
-            if (buildMode) {
-              setDraggedItem((prev) => (prev === null ? idx : prev));
-              setDraggedItemRotation(item.rotation || 0);
+      {!shopMode &&
+        (buildMode ? items : map.items).map((item, idx) => (
+          <Item
+            key={`${item.name}-${idx}`}
+            item={item}
+            onClick={() => {
+              if (buildMode) {
+                setDraggedItem((prev) => (prev === null ? idx : prev));
+                setDraggedItemRotation(item.rotation || 0);
+              }
+            }}
+            isDragging={draggedItem === idx}
+            dragPosition={dragPosition}
+            dragRotation={draggedItemRotation}
+            canDrop={canDrop}
+          />
+        ))}
+      {!shopMode && (
+        <mesh
+          rotation-x={-Math.PI / 2}
+          position-y={-0.002}
+          onClick={onPlaneClicked}
+          onPointerEnter={() => setOnFloor(true)}
+          onPointerLeave={() => setOnFloor(false)}
+          onPointerMove={(e) => {
+            if (!buildMode) {
+              return;
+            }
+            const newPosition = vector3ToGrid(e.point);
+            if (
+              !dragPosition ||
+              newPosition[0] !== dragPosition[0] ||
+              newPosition[1] !== dragPosition[1]
+            ) {
+              setDragPosition(newPosition);
             }
           }}
-          isDragging={draggedItem === idx}
-          dragPosition={dragPosition}
-          dragRotation={draggedItemRotation}
-          canDrop={canDrop}
-        />
-      ))}
-      <mesh
-        rotation-x={-Math.PI / 2}
-        position-y={-0.002}
-        onClick={onPlaneClicked}
-        onPointerEnter={() => setOnFloor(true)}
-        onPointerLeave={() => setOnFloor(false)}
-        onPointerMove={(e) => {
-          if (!buildMode) {
-            return;
-          }
-          const newPosition = vector3ToGrid(e.point);
-          if (
-            !dragPosition ||
-            newPosition[0] !== dragPosition[0] ||
-            newPosition[1] !== dragPosition[1]
-          ) {
-            setDragPosition(newPosition);
-          }
-        }}
-        position-x={map.size[0] / 2}
-        position-z={map.size[1] / 2}
-      >
-        <planeGeometry args={map.size} />
-        <meshStandardMaterial color="#f0f0f0" />
-      </mesh>
-      <Grid infiniteGrid fadeDistance={50} fadeStrength={5} />
+          position-x={map.size[0] / 2}
+          position-z={map.size[1] / 2}
+          receiveShadow
+        >
+          <planeGeometry args={map.size} />
+          <meshStandardMaterial color="#f0f0f0" />
+        </mesh>
+      )}
+      {buildMode && !shopMode && (
+        <Grid infiniteGrid fadeDistance={50} fadeStrength={5} />
+      )}
       {!buildMode &&
         characters?.map((character) => (
           <BeachCharacter

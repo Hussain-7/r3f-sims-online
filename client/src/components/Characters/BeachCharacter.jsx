@@ -92,12 +92,14 @@ export function BeachCharacter({
               geometry={nodes.Beach_Feet_1.geometry}
               material={materials.Skin}
               skeleton={nodes.Beach_Feet_1.skeleton}
+              castShadow
             />
             <skinnedMesh
               name="Beach_Feet_2"
               geometry={nodes.Beach_Feet_2.geometry}
               material={materials.Red_Dark}
               skeleton={nodes.Beach_Feet_2.skeleton}
+              castShadow
             />
           </group>
           <group name="Beach_Legs" rotation={[-Math.PI / 2, 0, 0]} scale={100}>
@@ -106,12 +108,14 @@ export function BeachCharacter({
               geometry={nodes.Beach_Legs_1.geometry}
               material={materials.Skin}
               skeleton={nodes.Beach_Legs_1.skeleton}
+              castShadow
             />
             <skinnedMesh
               name="Beach_Legs_2"
               geometry={nodes.Beach_Legs_2.geometry}
               material={materials.Red_Dark}
               skeleton={nodes.Beach_Legs_2.skeleton}
+              castShadow
             >
               <meshBasicMaterial color={bottomColor} />
             </skinnedMesh>
@@ -120,6 +124,7 @@ export function BeachCharacter({
               geometry={nodes.Beach_Legs_3.geometry}
               material={materials.White}
               skeleton={nodes.Beach_Legs_3.skeleton}
+              castShadow
             />
           </group>
           <group name="Beach_Body" rotation={[-Math.PI / 2, 0, 0]} scale={100}>
@@ -128,12 +133,14 @@ export function BeachCharacter({
               geometry={nodes.Beach_Body_1.geometry}
               material={materials.Skin}
               skeleton={nodes.Beach_Body_1.skeleton}
+              castShadow
             />
             <skinnedMesh
               name="Beach_Body_2"
               geometry={nodes.Beach_Body_2.geometry}
               material={materials.LightBrown}
               skeleton={nodes.Beach_Body_2.skeleton}
+              castShadow
             >
               <meshBasicMaterial color={topColor} />
             </skinnedMesh>
@@ -144,24 +151,28 @@ export function BeachCharacter({
               geometry={nodes.Beach_Head_1.geometry}
               material={materials.Skin}
               skeleton={nodes.Beach_Head_1.skeleton}
+              castShadow
             />
             <skinnedMesh
               name="Beach_Head_2"
               geometry={nodes.Beach_Head_2.geometry}
               material={materials.Eyebrows}
               skeleton={nodes.Beach_Head_2.skeleton}
+              castShadow
             />
             <skinnedMesh
               name="Beach_Head_3"
               geometry={nodes.Beach_Head_3.geometry}
               material={materials.Eye}
               skeleton={nodes.Beach_Head_3.skeleton}
+              castShadow
             />
             <skinnedMesh
               name="Beach_Head_4"
               geometry={nodes.Beach_Head_4.geometry}
               material={materials.Hair}
               skeleton={nodes.Beach_Head_4.skeleton}
+              castShadow
             >
               <meshBasicMaterial color={hairColor} />
             </skinnedMesh>
@@ -170,6 +181,7 @@ export function BeachCharacter({
               geometry={nodes.Beach_Head_5.geometry}
               material={materials.Earrings}
               skeleton={nodes.Beach_Head_5.skeleton}
+              castShadow
             />
           </group>
         </group>
