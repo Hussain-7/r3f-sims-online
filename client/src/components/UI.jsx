@@ -1,4 +1,7 @@
 import { atom, useAtom } from "jotai";
+import { AvatarCreator } from "@readyplayerme/react-avatar-creator";
+import { useState } from "react";
+import { socket } from "./SocketManager";
 
 export const buildModeAtom = atom(false);
 export const shopModeAtom = atom(false);
@@ -12,8 +15,19 @@ export const UI = () => {
   const [draggedItemRotation, setDraggedItemRotation] = useAtom(
     draggedItemRotationAtom
   );
-
-  return (
+  const handleOnAvatarExported = (event) => {
+    socket.emit("characterAvatarUpdate", event.data.url);
+    console.log(`Avatar URL is: ${event.data.url}`);
+    setAvatarMode(false);
+  };
+  const [avatarMode, setAvatarMode] = useState(true);
+  return avatarMode ? (
+    <AvatarCreator
+      subdomain="exarta"
+      className="fixed top-0 left-0 z-10 w-screen h-screen"
+      onAvatarExported={handleOnAvatarExported}
+    />
+  ) : (
     <div className="fixed inset-4 flex items-end justify-center pointer-events-none">
       <div className="flex items-center space-x-4 pointer-events-auto">
         {/* BACK */}
@@ -36,6 +50,26 @@ export const UI = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+              />
+            </svg>
+          </button>
+        )}
+        {/* Avatar Picker */}
+        {!buildMode && !shopMode && (
+          <button
+            className="p-4 rounded-full bg-slate-500 text-white drop-shadow-md cursor-pointer hover:bg-slate-800 transition-colors"
+            onClick={() => setAvatarMode(true)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
+                clip-rule="evenodd"
               />
             </svg>
           </button>
