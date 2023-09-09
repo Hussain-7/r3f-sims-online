@@ -4,8 +4,9 @@ import { useThree } from "@react-three/fiber";
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import { useGrid } from "../hooks/useGrid";
-import { BeachCharacter } from "../components/Characters/BeachCharacter";
+import { BeachCharacter } from "../components/Characters";
 import { Item } from "../components/Environment/Item";
+import Shop from "./Shop";
 import { charactersAtom, mapAtom, socket, userAtom } from "./SocketManager";
 import {
   buildModeAtom,
@@ -13,7 +14,6 @@ import {
   draggedItemRotationAtom,
   shopModeAtom,
 } from "./UI";
-import Shop from "./Shop";
 export const Experience = () => {
   const [buildMode, setBuildMode] = useAtom(buildModeAtom);
   const [shopMode, setShopMode] = useAtom(shopModeAtom);
@@ -62,7 +62,14 @@ export const Experience = () => {
   const [canDrop, setCanDrop] = useState(false);
 
   useEffect(() => {
-    if (!draggedItem) {
+    if (draggedItem === null) {
+      setItems((prev) => prev.filter((item) => !item.tmp));
+    }
+  }, [draggedItem]);
+
+  useEffect(() => {
+    if (draggedItem === null) {
+      // FIXED: issue with 0 being falsy
       return;
     }
     const item = items[draggedItem];
@@ -125,19 +132,22 @@ export const Experience = () => {
 
     setCanDrop(droppable);
   }, [dragPosition, draggedItem, items, draggedItemRotation]);
-
-  useEffect(() => {
-    if (draggedItem === null) {
-      setItems((prev) => prev.filter((item) => !item.tmp));
-    }
-  }, [draggedItem]);
-
   const controls = useRef();
   const state = useThree((state) => state);
 
   useEffect(() => {
+    if (buildMode) {
+      setItems(map?.items || []);
+      state.camera.position.set(8, 8, 8);
+      controls.current.target.set(0, 0, 0);
+    } else {
+      socket.emit("itemsUpdate", items);
+    }
+  }, [buildMode]);
+
+  useEffect(() => {
     if (shopMode) {
-      state.camera.position.set(8, 4, 8);
+      state.camera.position.set(0, 4, 8);
       controls.current.target.set(0, 0, 0);
     } else {
       state.camera.position.set(8, 8, 8);
@@ -163,7 +173,7 @@ export const Experience = () => {
   return (
     <>
       <Environment preset="sunset" />
-      <ambientLight intensity={0.3} />
+      <ambientLight intensity={0.1} />
       <directionalLight
         position={[-4, 4, -4]}
         castShadow
@@ -185,6 +195,8 @@ export const Experience = () => {
         screenSpacePanning={false}
         enableZoom={!shopMode}
       />
+      {shopMode && <Shop onItemSelected={onItemSelected} />}
+
       {!shopMode &&
         (buildMode ? items : map.items).map((item, idx) => (
           <Item
@@ -202,7 +214,7 @@ export const Experience = () => {
             canDrop={canDrop}
           />
         ))}
-      {shopMode && <Shop onItemSelected={onItemSelected} />}
+
       {!shopMode && (
         <mesh
           rotation-x={-Math.PI / 2}
@@ -235,15 +247,15 @@ export const Experience = () => {
         <Grid infiniteGrid fadeDistance={50} fadeStrength={5} />
       )}
       {!buildMode &&
-        characters?.map((character) => (
+        characters.map((character) => (
           <BeachCharacter
-            key={character?.id}
-            id={character?.id}
-            path={character?.path}
-            position={gridToVector3(character?.position)}
-            hairColor={character?.hairColor}
-            topColor={character?.topColor}
-            bottomColor={character?.bottomColor}
+            key={character.id}
+            id={character.id}
+            path={character.path}
+            position={gridToVector3(character.position)}
+            hairColor={character.hairColor}
+            topColor={character.topColor}
+            bottomColor={character.bottomColor}
           />
         ))}
     </>

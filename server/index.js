@@ -55,12 +55,11 @@ io.on("connection", (socket) => {
 
   socket.on("itemsUpdate", (items) => {
     map.items = items;
-    updateGrid();
     characters.forEach((character) => {
       character.path = [];
       character.position = generateRandomPosition();
     });
-    // io.emit("characters", characters);
+    updateGrid();
     io.emit("mapUpdate", {
       map,
       characters,

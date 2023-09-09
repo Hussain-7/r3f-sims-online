@@ -24,8 +24,8 @@ export const SocketManager = () => {
     function onHello(value) {
       setMap(value.map);
       setUser(value.id);
-      setCharacters(value.characters);
       setItems(value.items);
+      setCharacters(value.characters);
     }
 
     function onCharacters(value) {
