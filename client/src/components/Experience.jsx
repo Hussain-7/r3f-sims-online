@@ -13,6 +13,7 @@ import {
   draggedItemRotationAtom,
   shopModeAtom,
 } from "./UI";
+import Shop from "./Shop";
 export const Experience = () => {
   const [buildMode, setBuildMode] = useAtom(buildModeAtom);
   const [shopMode, setShopMode] = useAtom(shopModeAtom);
@@ -42,6 +43,7 @@ export const Experience = () => {
         if (canDrop) {
           setItems((prev) => {
             const newItems = [...prev];
+            delete newItems[draggedItem].tmp;
             newItems[draggedItem].gridPosition = vector3ToGrid(e.point);
             newItems[draggedItem].rotation = draggedItemRotation;
             return newItems;
@@ -56,7 +58,7 @@ export const Experience = () => {
   const [draggedItemRotation, setDraggedItemRotation] = useAtom(
     draggedItemRotationAtom
   );
-  const [dragPosition, setDragPosition] = useState(null);
+  const [dragPosition, setDragPosition] = useState([0, 0]);
   const [canDrop, setCanDrop] = useState(false);
 
   useEffect(() => {
@@ -123,18 +125,40 @@ export const Experience = () => {
 
     setCanDrop(droppable);
   }, [dragPosition, draggedItem, items, draggedItemRotation]);
+
+  useEffect(() => {
+    if (draggedItem === null) {
+      setItems((prev) => prev.filter((item) => !item.tmp));
+    }
+  }, [draggedItem]);
+
   const controls = useRef();
   const state = useThree((state) => state);
 
   useEffect(() => {
-    if (buildMode) {
-      setItems(map?.items || []);
-      state.camera.position.set(30, 10, 20);
+    if (shopMode) {
+      state.camera.position.set(8, 4, 8);
       controls.current.target.set(0, 0, 0);
     } else {
-      socket.emit("itemsUpdate", items);
+      state.camera.position.set(8, 8, 8);
+      controls.current.target.set(0, 0, 0);
     }
-  }, [buildMode]);
+  }, [shopMode]);
+
+  const onItemSelected = (item) => {
+    setShopMode(false);
+
+    setItems((prev) => [
+      ...prev,
+      {
+        ...item,
+        gridPosition: [0, 0],
+        tmp: true,
+      },
+    ]);
+    setDraggedItem(items.length);
+    setDraggedItemRotation(0);
+  };
 
   return (
     <>
@@ -151,7 +175,7 @@ export const Experience = () => {
           args={[-map.size[0], map.size[1], 10, -10]}
           far={map.size[0] + map.size[1]}
         />
-      </directionalLight>{" "}
+      </directionalLight>
       <OrbitControls
         ref={controls}
         minDistance={5}
@@ -159,6 +183,7 @@ export const Experience = () => {
         minPolarAngle={0}
         maxPolarAngle={Math.PI / 2}
         screenSpacePanning={false}
+        enableZoom={!shopMode}
       />
       {!shopMode &&
         (buildMode ? items : map.items).map((item, idx) => (
@@ -177,6 +202,7 @@ export const Experience = () => {
             canDrop={canDrop}
           />
         ))}
+      {shopMode && <Shop onItemSelected={onItemSelected} />}
       {!shopMode && (
         <mesh
           rotation-x={-Math.PI / 2}
