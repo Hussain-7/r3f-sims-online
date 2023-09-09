@@ -14,6 +14,7 @@ import {
   draggedItemRotationAtom,
   shopModeAtom,
 } from "./UI";
+import { Avatar } from "./Characters/Avatar";
 export const Experience = () => {
   const [buildMode, setBuildMode] = useAtom(buildModeAtom);
   const [shopMode, setShopMode] = useAtom(shopModeAtom);
@@ -248,7 +249,7 @@ export const Experience = () => {
       )}
       {!buildMode &&
         characters.map((character) => (
-          <BeachCharacter
+          <Avatar
             key={character.id}
             id={character.id}
             path={character.path}
