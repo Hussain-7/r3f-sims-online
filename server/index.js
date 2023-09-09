@@ -40,7 +40,7 @@ io.on("connection", (socket) => {
     const character = characters.find(
       (character) => character.id === socket.id
     );
-    character.avatarUrl = avatarUrl;
+    character.avatarUrl = avatarUrl.split("?")[0] + "?" + new Date().getTime();
     io.emit("characters", characters);
   });
   socket.on("move", (from, to) => {

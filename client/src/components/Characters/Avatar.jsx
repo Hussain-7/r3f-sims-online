@@ -24,13 +24,6 @@ export function Avatar({
   const [path, setPath] = useState();
   const { gridToVector3 } = useGrid();
 
-  useEffect(() => {
-    const path = [];
-    props.path?.forEach((gridPosition) => {
-      path.push(gridToVector3(gridPosition));
-    });
-    setPath(path);
-  }, [props.path]);
   const group = useRef();
   const { scene } = useGLTF(avatarUrl);
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);

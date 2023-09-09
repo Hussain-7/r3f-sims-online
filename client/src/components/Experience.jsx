@@ -253,7 +253,6 @@ export const Experience = () => {
             {" "}
             <Avatar
               id={character.id}
-              path={character.path}
               position={gridToVector3(character.position)}
               hairColor={character.hairColor}
               topColor={character.topColor}
