@@ -56,6 +56,12 @@ io.on("connection", (socket) => {
     io.emit("playerMove", character);
   });
 
+  socket.on("dance", () => {
+    io.emit("playerDance", {
+      id: socket.id,
+    });
+  });
+
   socket.on("itemsUpdate", (items) => {
     map.items = items;
     characters.forEach((character) => {

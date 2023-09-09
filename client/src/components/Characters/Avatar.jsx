@@ -57,36 +57,36 @@ export function Avatar({
         child.receiveShadow = true;
       }
     });
-  }, []);
+  }, [avatarUrl]);
 
   useEffect(() => {
     actions[animation].reset().fadeIn(0.32).play();
     return () => actions[animation]?.fadeOut(0.32);
   }, [animation]);
 
-  // useEffect(() => {
-  //   function onPlayerDance(value) {
-  //     if (value.id === id) {
-  //       setIsDancing(true);
-  //     }
-  //   }
-  //   function onPlayerMove(value) {
-  //     if (value.id === id) {
-  //       const path = [];
-  //       value.path?.forEach((gridPosition) => {
-  //         path.push(gridToVector3(gridPosition));
-  //       });
-  //       setPath(path);
-  //     }
-  //   }
+  useEffect(() => {
+    function onPlayerDance(value) {
+      if (value.id === id) {
+        setIsDancing(true);
+      }
+    }
+    function onPlayerMove(value) {
+      if (value.id === id) {
+        const path = [];
+        value.path?.forEach((gridPosition) => {
+          path.push(gridToVector3(gridPosition));
+        });
+        setPath(path);
+      }
+    }
 
-  //   socket.on("playerMove", onPlayerMove);
-  //   socket.on("playerDance", onPlayerDance);
-  //   return () => {
-  //     socket.off("playerDance", onPlayerDance);
-  //     socket.off("playerMove", onPlayerMove);
-  //   };
-  // }, [id]);
+    socket.on("playerMove", onPlayerMove);
+    socket.on("playerDance", onPlayerDance);
+    return () => {
+      socket.off("playerDance", onPlayerDance);
+      socket.off("playerMove", onPlayerMove);
+    };
+  }, [id]);
 
   const [user] = useAtom(userAtom);
 
@@ -102,8 +102,11 @@ export function Avatar({
       group.current.position.sub(direction);
       group.current.lookAt(path[0]);
       setAnimation("M_Walk_001");
+      setIsDancing(false);
     } else if (path?.length) {
       path.shift();
+    } else if (isDancing) {
+      setAnimation("M_Dances_001");
     } else {
       setAnimation("M_Standing_Idle_001");
     }
