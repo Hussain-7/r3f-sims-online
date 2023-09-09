@@ -8,8 +8,7 @@ import {
 
 export const io = new Server({
   cors: {
-    origin: "http://127.0.0.1:5173",
-    // add multiple origins with an array of strings and regexps
+    origin: "http://localhost:5173",
   },
 });
 
@@ -19,10 +18,8 @@ export const characters = [];
 // Update the grid map state according to the item positions
 // and set walkable and unwalkable positions
 updateGrid();
-
 io.on("connection", (socket) => {
   console.log("user connected");
-
   characters.push({
     id: socket.id,
     position: generateRandomPosition(),
@@ -30,7 +27,6 @@ io.on("connection", (socket) => {
     topColor: generateRandomHexColor(),
     bottomColor: generateRandomHexColor(),
   });
-
   socket.emit("hello", {
     map,
     characters,

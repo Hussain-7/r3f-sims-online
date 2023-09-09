@@ -1,9 +1,9 @@
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
-import { SocketManager } from "./components/SocketManager";
 import { UI, shopModeAtom } from "./components/UI";
 import { ScrollControls } from "@react-three/drei";
 import { useAtom } from "jotai";
+import { SocketManager } from "./components/SocketManager";
 
 function App() {
   const [shopMode] = useAtom(shopModeAtom);
