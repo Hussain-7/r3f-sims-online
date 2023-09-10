@@ -8,9 +8,12 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { useFrame, useGraph } from "@react-three/fiber";
 import { SkeletonUtils } from "three-stdlib";
 import { socket, userAtom } from "../SocketManager";
-import { useAtom } from "jotai";
+import { useAtom, atom } from "jotai";
 import { useGrid } from "../../hooks/useGrid";
 const MOVEMENT_SPEED = 0.032;
+
+export const avatarLoadingAtom = atom(false);
+
 export function Avatar({
   hairColor = "white",
   topColor = "orange",
@@ -19,6 +22,7 @@ export function Avatar({
   avatarUrl = "https://models.readyplayer.me/64e3dccdc603b299c00ec9fa.glb",
   ...props
 }) {
+  const [avatarLoaded, setAvatarLoaded] = useAtom(avatarLoadingAtom);
   const position = useMemo(() => props.position, []);
   const avatar = useRef();
   const [path, setPath] = useState();
@@ -28,6 +32,13 @@ export function Avatar({
   const { scene } = useGLTF(avatarUrl);
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
 
+  useEffect(() => {
+    setAvatarLoaded(true);
+  }, [clone]);
+
+  useEffect(() => {
+    console.log("avatarLoaded", avatarLoaded);
+  }, [avatarLoaded]);
   const { animations: walkAnimation } = useGLTF("/animations/M_Walk_001.glb");
   const { animations: danceAnimation } = useGLTF(
     "/animations/M_Dances_001.glb"
@@ -119,7 +130,13 @@ export function Avatar({
       dispose={null}
       name={`character-${id}`}
     >
-      <primitive object={clone} ref={avatar} />
+      <primitive
+        object={clone}
+        ref={avatar}
+        onLoad={() => {
+          console.log("loaded");
+        }}
+      />
     </group>
   );
 }
