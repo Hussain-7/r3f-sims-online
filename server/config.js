@@ -261,7 +261,7 @@ export const items = {
 };
 
 export const map = {
-  size: [10, 10],
+  size: [20, 20],
   gridDivision: 2,
   items: [
     {

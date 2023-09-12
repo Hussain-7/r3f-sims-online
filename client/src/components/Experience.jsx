@@ -17,7 +17,6 @@ import {
 import { Avatar } from "./Characters/Avatar";
 import Loader from "./Loader";
 
-
 export const Experience = () => {
   const [buildMode, setBuildMode] = useAtom(buildModeAtom);
   const [shopMode, setShopMode] = useAtom(shopModeAtom);
