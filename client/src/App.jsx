@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 // import { EffectComposer, N8AO } from "@react-three/postprocessing";
-import { ScrollControls, useProgress } from "@react-three/drei";
+import { ScrollControls, Stats, useProgress } from "@react-three/drei";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { Experience } from "./components/Experience";

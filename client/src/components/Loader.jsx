@@ -12,7 +12,7 @@ export const Loader = ({ loaded }) => {
           progress === 100 || loaded ? "opacity-0" : ""
         }`}
       >
-        <h1 className="font-bold text-5xl text-black">HUSSAIN MANSION</h1>
+        <h1 className="font-bold text-5xl text-black">HR7 MANSION</h1>
         <div className="relative h-5">
           <div
             className="absolute top-0 left-0 h-full bg-black transition-all"
