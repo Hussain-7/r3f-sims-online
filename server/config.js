@@ -44,6 +44,7 @@ export const items = {
   loungeSofaCorner: {
     name: "loungeSofaCorner",
     size: [5, 5],
+    rotation: 2,
   },
   bear: {
     name: "bear",
@@ -61,38 +62,41 @@ export const items = {
   loungeDesignSofaCorner: {
     name: "loungeDesignSofaCorner",
     size: [5, 5],
+    rotation: 2,
   },
   loungeDesignSofa: {
     name: "loungeDesignSofa",
     size: [5, 2],
+    rotation: 2,
   },
   loungeSofa: {
     name: "loungeSofa",
     size: [5, 2],
+    rotation: 2,
   },
   bookcaseOpenLow: {
     name: "bookcaseOpenLow",
     size: [2, 1],
   },
-  kitchenBar: {
-    name: "kitchenBar",
-    size: [2, 1],
-  },
   bookcaseClosedWide: {
     name: "bookcaseClosedWide",
     size: [3, 1],
+    rotation: 2,
   },
   bedSingle: {
     name: "bedSingle",
-    size: [3, 5],
+    size: [3, 6],
+    rotation: 2,
   },
   bench: {
     name: "bench",
     size: [2, 1],
+    rotation: 2,
   },
   bedDouble: {
     name: "bedDouble",
     size: [5, 5],
+    rotation: 2,
   },
   benchCushionLow: {
     name: "benchCushionLow",
@@ -101,14 +105,17 @@ export const items = {
   loungeChair: {
     name: "loungeChair",
     size: [2, 2],
+    rotation: 2,
   },
   cabinetBedDrawer: {
     name: "cabinetBedDrawer",
     size: [1, 1],
+    rotation: 2,
   },
   cabinetBedDrawerTable: {
     name: "cabinetBedDrawerTable",
     size: [1, 1],
+    rotation: 2,
   },
   table: {
     name: "table",
@@ -149,10 +156,25 @@ export const items = {
   televisionVintage: {
     name: "televisionVintage",
     size: [4, 2],
+    rotation: 2,
   },
   televisionModern: {
     name: "televisionModern",
     size: [4, 2],
+    rotation: 2,
+  },
+  kitchenFridge: {
+    name: "kitchenFridge",
+    size: [2, 1],
+    rotation: 2,
+  },
+  kitchenFridgeLarge: {
+    name: "kitchenFridgeLarge",
+    size: [2, 1],
+  },
+  kitchenBar: {
+    name: "kitchenBar",
+    size: [2, 1],
   },
   kitchenCabinetCornerRound: {
     name: "kitchenCabinetCornerRound",
@@ -177,10 +199,12 @@ export const items = {
   chairCushion: {
     name: "chairCushion",
     size: [1, 1],
+    rotation: 2,
   },
   chair: {
     name: "chair",
     size: [1, 1],
+    rotation: 2,
   },
   deskComputer: {
     name: "deskComputer",
@@ -193,10 +217,12 @@ export const items = {
   chairModernCushion: {
     name: "chairModernCushion",
     size: [1, 1],
+    rotation: 2,
   },
   chairModernFrameCushion: {
     name: "chairModernFrameCushion",
     size: [1, 1],
+    rotation: 2,
   },
   kitchenMicrowave: {
     name: "kitchenMicrowave",
@@ -249,6 +275,7 @@ export const items = {
   speakerSmall: {
     name: "speakerSmall",
     size: [1, 1],
+    rotation: 2,
   },
   stoolBar: {
     name: "stoolBar",

@@ -1,10 +1,9 @@
-import { map } from "../config.js";
-import { grid } from "./pathFinder.js";
-export const generateRandomPosition = () => {
+export const generateRandomPosition = (room) => {
+  // TO AVOID INFINITE LOOP WE LIMIT TO 100, BEST WOULD BE TO CHECK IF THERE IS ENOUGH SPACE LEFT 🤭
   for (let i = 0; i < 100; i++) {
-    const x = Math.floor(Math.random() * map.size[0] * map.gridDivision);
-    const y = Math.floor(Math.random() * map.size[1] * map.gridDivision);
-    if (grid.isWalkableAt(x, y)) {
+    const x = Math.floor(Math.random() * room.size[0] * room.gridDivision);
+    const y = Math.floor(Math.random() * room.size[1] * room.gridDivision);
+    if (room.grid.isWalkableAt(x, y)) {
       return [x, y];
     }
   }
