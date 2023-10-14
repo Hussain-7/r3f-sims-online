@@ -181,8 +181,8 @@
         ],
         "rotation": 0,
         "gridPosition": [
-          12,
-          13
+          8,
+          12
         ]
       },
       {
@@ -196,6 +196,18 @@
           0,
           5
         ]
+      },
+      {
+        "name": "toiletSquare",
+        "size": [
+          2,
+          2
+        ],
+        "gridPosition": [
+          3,
+          8
+        ],
+        "rotation": 0
       }
     ],
     "size": [
@@ -205,11 +217,11 @@
     "gridDivision": 2,
     "characters": [
       {
-        "id": "949vNPE1Dx3sWXVRAAAD",
-        "session": 535,
+        "id": "AslQz9RHZLY-VtF8AAAF",
+        "session": 692,
         "position": [
-          5,
-          8
+          13,
+          4
         ],
         "avatarUrl": "https://models.readyplayer.me/652aa5f4a03b91ea2ab94555.glb?meshlod=1&quality=medium",
         "canUpdateRoom": true,
@@ -815,12 +827,12 @@
           {
             "x": 3,
             "y": 8,
-            "walkable": true
+            "walkable": false
           },
           {
             "x": 4,
             "y": 8,
-            "walkable": true
+            "walkable": false
           },
           {
             "x": 5,
@@ -887,12 +899,12 @@
           {
             "x": 3,
             "y": 9,
-            "walkable": true
+            "walkable": false
           },
           {
             "x": 4,
             "y": 9,
-            "walkable": true
+            "walkable": false
           },
           {
             "x": 5,
@@ -1128,7 +1140,7 @@
           {
             "x": 8,
             "y": 12,
-            "walkable": true
+            "walkable": false
           },
           {
             "x": 9,
@@ -1220,7 +1232,7 @@
           {
             "x": 12,
             "y": 13,
-            "walkable": false
+            "walkable": true
           },
           {
             "x": 13,

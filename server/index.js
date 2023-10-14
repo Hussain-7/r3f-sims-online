@@ -1,13 +1,5 @@
 import fs from "fs";
 import { Server } from "socket.io";
-import { items } from "./config.js";
-import {
-  generateRandomPosition,
-  findPath,
-  updateGrid,
-  loadRooms,
-} from "./utils/index.js";
-
 const origin = process.env.CLIENT_URL || "http://localhost:5173";
 const io = new Server({
   cors: {
@@ -17,6 +9,14 @@ const io = new Server({
 
 io.listen(3000);
 console.log("Server started on port 3000, allowed cors origin: " + origin);
+
+import { items } from "./config.js";
+import {
+  generateRandomPosition,
+  findPath,
+  updateGrid,
+  loadRooms,
+} from "./utils/index.js";
 
 // ROOMS MANAGEMENT
 export const rooms = [];
