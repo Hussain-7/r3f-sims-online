@@ -1,3 +1,1 @@
-# Server Tasks
-- Create a multiplayer socket server
-- manage the grid items and their placements to allow shop feature
+# Fix the deployment Just the server is not connecting due to some cors erros or something
